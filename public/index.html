@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Site Global</title>
+</head>
+<body>
+
+  <input id="texto" type="text">
+  <button onclick="salvar()">Salvar</button>
+
+  <p id="label"></p>
+
+  <script>
+    async function carregar() {
+      const r = await fetch("/texto");
+      document.getElementById("label").innerText = await r.text();
+    }
+
+    async function salvar() {
+      const texto = document.getElementById("texto").value;
+      await fetch("/salvar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ texto })
+      });
+      document.getElementById("label").innerText = texto;
+    }
+
+    carregar();
+  </script>
+
+</body>
+</html>
